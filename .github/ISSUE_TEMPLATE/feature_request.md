@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a new tool or improvement to TryDevUtils
+about: Suggest a new tool or improvement to OpenDevUtils
 title: "[FEATURE] "
 labels: enhancement
 assignees: ""

@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("TryDevUtils Chrome extension installed");
+  console.log("OpenDevUtils Chrome extension installed");
 });
 
 chrome.action.onClicked.addListener(async () => {

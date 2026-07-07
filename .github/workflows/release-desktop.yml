@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 env:
-  APP_NAME: TryDevUtils
+  APP_NAME: OpenDevUtils
 
 jobs:
   build:
@@ -91,7 +91,7 @@ jobs:
           mkdir -p artifacts
           DMG=$(find src-tauri/target/${{ matrix.target }}/release/bundle/dmg -name "*.dmg" | head -1)
           if [ -n "$DMG" ]; then
-            cp "$DMG" "artifacts/TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.dmg"
+            cp "$DMG" "artifacts/OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.dmg"
           fi
 
       - name: Collect build artifacts (Linux)
@@ -102,13 +102,13 @@ jobs:
           APPIMAGE=$(find src-tauri/target/${{ matrix.target }}/release/bundle/appimage -name "*.AppImage" | head -1)
           RPM=$(find src-tauri/target/${{ matrix.target }}/release/bundle/rpm -name "*.rpm" 2>/dev/null | head -1)
           if [ -n "$DEB" ]; then
-            cp "$DEB" "artifacts/TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.deb"
+            cp "$DEB" "artifacts/OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.deb"
           fi
           if [ -n "$APPIMAGE" ]; then
-            cp "$APPIMAGE" "artifacts/TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.AppImage"
+            cp "$APPIMAGE" "artifacts/OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.AppImage"
           fi
           if [ -n "$RPM" ]; then
-            cp "$RPM" "artifacts/TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.rpm"
+            cp "$RPM" "artifacts/OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.rpm"
           fi
 
       - name: Collect build artifacts (Windows)
@@ -119,10 +119,10 @@ jobs:
           $msi = Get-ChildItem -Path "src-tauri\target\${{ matrix.target }}\release\bundle\msi" -Filter "*.msi" -Recurse | Select-Object -First 1
           $nsis = Get-ChildItem -Path "src-tauri\target\${{ matrix.target }}\release\bundle\nsis" -Filter "*.exe" -Recurse | Select-Object -First 1
           if ($msi) {
-            Copy-Item $msi.FullName "artifacts\TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.msi"
+            Copy-Item $msi.FullName "artifacts\OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}.msi"
           }
           if ($nsis) {
-            Copy-Item $nsis.FullName "artifacts\TryDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}_setup.exe"
+            Copy-Item $nsis.FullName "artifacts\OpenDevUtils_${{ github.event.inputs.version }}_${{ matrix.label }}_setup.exe"
           }
 
       - name: Upload artifacts
@@ -155,18 +155,18 @@ jobs:
 
       - name: Move checksums
         run: |
-          cp checksums.txt "all-artifacts/TryDevUtils_${{ github.event.inputs.version }}_checksums_sha256.txt"
+          cp checksums.txt "all-artifacts/OpenDevUtils_${{ github.event.inputs.version }}_checksums_sha256.txt"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.event.inputs.version }}
-          name: TryDevUtils v${{ github.event.inputs.version }}
+          name: OpenDevUtils v${{ github.event.inputs.version }}
           draft: ${{ github.event.inputs.draft }}
           generate_release_notes: true
           files: all-artifacts/*
           body: |
-            ## TryDevUtils Desktop v${{ github.event.inputs.version }}
+            ## OpenDevUtils Desktop v${{ github.event.inputs.version }}
 
             Essential developer utilities — offline, private, open source.
 
@@ -174,17 +174,17 @@ jobs:
 
             | Platform | File |
             |----------|------|
-            | 🍎 macOS (Apple Silicon) | `TryDevUtils_${{ github.event.inputs.version }}_macOS-arm64.dmg` |
-            | 🍎 macOS (Intel) | `TryDevUtils_${{ github.event.inputs.version }}_macOS-x64.dmg` |
-            | 🐧 Linux (deb) | `TryDevUtils_${{ github.event.inputs.version }}_Linux-x64.deb` |
-            | 🐧 Linux (AppImage) | `TryDevUtils_${{ github.event.inputs.version }}_Linux-x64.AppImage` |
-            | 🪟 Windows (MSI) | `TryDevUtils_${{ github.event.inputs.version }}_Windows-x64.msi` |
-            | 🪟 Windows (Setup) | `TryDevUtils_${{ github.event.inputs.version }}_Windows-x64_setup.exe` |
+            | 🍎 macOS (Apple Silicon) | `OpenDevUtils_${{ github.event.inputs.version }}_macOS-arm64.dmg` |
+            | 🍎 macOS (Intel) | `OpenDevUtils_${{ github.event.inputs.version }}_macOS-x64.dmg` |
+            | 🐧 Linux (deb) | `OpenDevUtils_${{ github.event.inputs.version }}_Linux-x64.deb` |
+            | 🐧 Linux (AppImage) | `OpenDevUtils_${{ github.event.inputs.version }}_Linux-x64.AppImage` |
+            | 🪟 Windows (MSI) | `OpenDevUtils_${{ github.event.inputs.version }}_Windows-x64.msi` |
+            | 🪟 Windows (Setup) | `OpenDevUtils_${{ github.event.inputs.version }}_Windows-x64_setup.exe` |
 
             ### Verify checksums
 
             ```bash
-            sha256sum -c TryDevUtils_${{ github.event.inputs.version }}_checksums_sha256.txt
+            sha256sum -c OpenDevUtils_${{ github.event.inputs.version }}_checksums_sha256.txt
             ```
 
             ### What's included

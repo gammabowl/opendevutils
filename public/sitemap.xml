@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.trydevutils.com/</loc>
+    <loc>https://www.opendevutils.com/</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/base64</loc>
+    <loc>https://www.opendevutils.com/base64</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/color</loc>
+    <loc>https://www.opendevutils.com/color</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/cron</loc>
+    <loc>https://www.opendevutils.com/cron</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/hash</loc>
+    <loc>https://www.opendevutils.com/hash</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/json</loc>
+    <loc>https://www.opendevutils.com/json</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/jwt</loc>
+    <loc>https://www.opendevutils.com/jwt</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/keypair</loc>
+    <loc>https://www.opendevutils.com/keypair</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/markdown</loc>
+    <loc>https://www.opendevutils.com/markdown</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/numberbase</loc>
+    <loc>https://www.opendevutils.com/numberbase</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/regex</loc>
+    <loc>https://www.opendevutils.com/regex</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/sql</loc>
+    <loc>https://www.opendevutils.com/sql</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/ssl</loc>
+    <loc>https://www.opendevutils.com/ssl</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/string</loc>
+    <loc>https://www.opendevutils.com/string</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/diff</loc>
+    <loc>https://www.opendevutils.com/diff</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/timestamp</loc>
+    <loc>https://www.opendevutils.com/timestamp</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/url</loc>
+    <loc>https://www.opendevutils.com/url</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/uuid</loc>
+    <loc>https://www.opendevutils.com/uuid</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/yaml</loc>
+    <loc>https://www.opendevutils.com/yaml</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/zlib</loc>
+    <loc>https://www.opendevutils.com/zlib</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/httpstatus</loc>
+    <loc>https://www.opendevutils.com/httpstatus</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.trydevutils.com/mimetype</loc>
+    <loc>https://www.opendevutils.com/mimetype</loc>
     <lastmod>2026-02-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

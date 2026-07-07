@@ -150,7 +150,7 @@ export function useGlobalKeyboardShortcuts() {
       if ((e.metaKey || e.ctrlKey) && e.key === "l" && !e.shiftKey) {
         // Don't prevent default as it might interfere with browser URL bar
         // Instead, dispatch a custom event that utils can listen to
-        const clearEvent = new CustomEvent("trydevutils:clear");
+        const clearEvent = new CustomEvent("opendevutils:clear");
         window.dispatchEvent(clearEvent);
         return;
       }
@@ -158,7 +158,7 @@ export function useGlobalKeyboardShortcuts() {
       // Cmd/Ctrl + Enter to execute
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
         e.preventDefault();
-        const executeEvent = new CustomEvent("trydevutils:execute");
+        const executeEvent = new CustomEvent("opendevutils:execute");
         window.dispatchEvent(executeEvent);
         return;
       }
@@ -169,7 +169,7 @@ export function useGlobalKeyboardShortcuts() {
         const selection = window.getSelection();
         if (!selection || selection.toString().length === 0) {
           e.preventDefault();
-          const copyEvent = new CustomEvent("trydevutils:copy");
+          const copyEvent = new CustomEvent("opendevutils:copy");
           window.dispatchEvent(copyEvent);
           return;
         }
@@ -199,19 +199,19 @@ export function useUtilKeyboardShortcuts({
     const handleCopy = () => onCopy?.();
 
     if (onExecute) {
-      window.addEventListener("trydevutils:execute", handleExecute);
+      window.addEventListener("opendevutils:execute", handleExecute);
     }
     if (onClear) {
-      window.addEventListener("trydevutils:clear", handleClear);
+      window.addEventListener("opendevutils:clear", handleClear);
     }
     if (onCopy) {
-      window.addEventListener("trydevutils:copy", handleCopy);
+      window.addEventListener("opendevutils:copy", handleCopy);
     }
 
     return () => {
-      window.removeEventListener("trydevutils:execute", handleExecute);
-      window.removeEventListener("trydevutils:clear", handleClear);
-      window.removeEventListener("trydevutils:copy", handleCopy);
+      window.removeEventListener("opendevutils:execute", handleExecute);
+      window.removeEventListener("opendevutils:clear", handleClear);
+      window.removeEventListener("opendevutils:copy", handleCopy);
     };
   }, [onExecute, onClear, onCopy]);
 }

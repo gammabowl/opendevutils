@@ -71,13 +71,13 @@ jobs:
       - name: Create ZIP
         run: |
           cd dist-extension
-          zip -r ../TryDevUtils_extension_v${{ steps.version.outputs.version }}.zip .
+          zip -r ../OpenDevUtils_extension_v${{ steps.version.outputs.version }}.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: extension-v${{ steps.version.outputs.version }}
-          name: TryDevUtils Extension v${{ steps.version.outputs.version }}
+          name: OpenDevUtils Extension v${{ steps.version.outputs.version }}
           draft: ${{ inputs.draft_release }}
           generate_release_notes: true
-          files: TryDevUtils_extension_v${{ steps.version.outputs.version }}.zip
+          files: OpenDevUtils_extension_v${{ steps.version.outputs.version }}.zip

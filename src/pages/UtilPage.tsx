@@ -44,7 +44,7 @@ export function UtilPage() {
 
   // Set page title and meta description
   useEffect(() => {
-    document.title = `TryDevUtils - ${util.label}`;
+    document.title = `OpenDevUtils - ${util.label}`;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute('content', util.description);
@@ -65,7 +65,7 @@ export function UtilPage() {
             "description": util.description,
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Web Browser",
-            "url": `https://trydevutils.com/util/${util.id}`
+            "url": `https://opendevutils.com/util/${util.id}`
           })}
         </script>
       )}

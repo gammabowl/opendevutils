@@ -32,8 +32,8 @@ export function Layout() {
         <div className="container mx-auto px-4 py-3 sm:py-6">
           <div className="flex items-center gap-1 sm:gap-2">
             <Link to="/" className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="TryDevUtils Logo" className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg" />
-              <h1 className="text-lg sm:text-2xl font-bold text-foreground">TryDevUtils</h1>
+              <img src="/logo.png" alt="OpenDevUtils Logo" className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg" />
+              <h1 className="text-lg sm:text-2xl font-bold text-foreground">OpenDevUtils</h1>
             </Link>
             <div className="ml-auto flex items-center gap-1">
               {/* Action buttons group */}
@@ -87,17 +87,17 @@ export function Layout() {
               {/* Info dialog */}
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground" title="About TryDevUtils">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground" title="About OpenDevUtils">
                     <Info className="h-4 w-4" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader className="text-center pb-2">
                     <div className="mx-auto mb-4">
-                      <img src="/logo.png" alt="TryDevUtils Logo" className="h-16 w-16 rounded-xl" />
+                      <img src="/logo.png" alt="OpenDevUtils Logo" className="h-16 w-16 rounded-xl" />
                     </div>
                     <DialogTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      Why Choose TryDevUtils?
+                      Why Choose OpenDevUtils?
                     </DialogTitle>
                     <DialogDescription className="text-sm text-muted-foreground mt-2">
                       Clean, fast, and privacy-focused developer utilities — available on the web and as a desktop app for macOS, Windows, and Linux
@@ -108,7 +108,7 @@ export function Layout() {
                     <div className="rounded-lg bg-muted/50 p-4 border border-border/50">
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         Most developer utils websites are bloated with ads, trackers, and unnecessary scripts.
-                        TryDevUtils delivers essential utils in a clean, distraction-free interface — use it in your browser or download the native desktop app for macOS, Windows, and Linux.
+                        OpenDevUtils delivers essential utils in a clean, distraction-free interface — use it in your browser or download the native desktop app for macOS, Windows, and Linux.
                       </p>
                     </div>
 

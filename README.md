@@ -1,4 +1,4 @@
-# TryDevUtils
+# OpenDevUtils
 
 Essential developer utilities built with React + TypeScript. Available as a web app, a desktop app, and a Chrome extension.
 
