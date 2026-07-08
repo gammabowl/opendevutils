@@ -76,6 +76,14 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      # Works around a known npm/optionalDependencies bug where `npm ci`
+      # sometimes skips installing the platform-specific @swc/core native
+      # binding (https://github.com/swc-project/swc/issues/10391), which
+      # breaks the vite build with "Failed to load native binding".
+      - name: Verify swc native binding
+        shell: bash
+        run: node -e "require('@swc/core')" || npm install --no-save --force @swc/core
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
