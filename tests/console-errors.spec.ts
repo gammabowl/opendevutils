@@ -16,7 +16,7 @@ test('No console errors when clicking all utils', async ({ page }) => {
   await page.goto('/');
 
   // Wait for the page to load - look for the main content or util grid
-  await page.waitForSelector('h1:has-text("TryDevUtils")');
+  await page.waitForSelector('h1:has-text("OpenDevUtils")');
 
   // Wait for util links to be present
   await page.waitForSelector('a[href^="/"]:not([href="/"])');
@@ -51,6 +51,6 @@ test('No console errors when clicking all utils', async ({ page }) => {
 
     // Go back to home
     await page.goto('/');
-    await page.waitForSelector('h1:has-text("TryDevUtils")');
+    await page.waitForSelector('h1:has-text("OpenDevUtils")');
   }
 });

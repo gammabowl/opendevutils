@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "TryDevUtils",
+  "name": "OpenDevUtils",
   "description": "Essential developer utilities",
   "version": "0.1.4",
-  "homepage_url": "https://www.trydevutils.com",
+  "homepage_url": "https://www.opendevutils.com",
   "action": {
-    "default_title": "TryDevUtils"
+    "default_title": "OpenDevUtils"
   },
   "background": {
     "service_worker": "background.js",

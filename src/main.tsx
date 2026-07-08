@@ -10,7 +10,7 @@ if (isExtension()) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider defaultTheme="system" storageKey="trydevutils-theme">
+  <ThemeProvider defaultTheme="system" storageKey="opendevutils-theme">
     <App />
   </ThemeProvider>
 );

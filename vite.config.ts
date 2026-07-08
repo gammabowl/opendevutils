@@ -52,11 +52,11 @@ export default defineConfig(({ mode }) => {
               includeAssets: [
                 "favicon.ico",
                 "favicon.png",
-                "og_trydevutils.png",
+                "og_opendevutils.png",
               ],
               manifest: {
-                name: "TryDevUtils",
-                short_name: "TryDevUtils",
+                name: "OpenDevUtils",
+                short_name: "OpenDevUtils",
                 description: "Essential Developer Utilities",
                 theme_color: "#000000",
                 background_color: "#ffffff",

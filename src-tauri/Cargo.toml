@@ -1,14 +1,14 @@
 [package]
-name = "trydevutils-desktop"
+name = "opendevutils-desktop"
 version = "0.1.0"
-description = "TryDevUtils - Essential Developer Utilities (Desktop)"
-authors = ["TryDevUtils"]
+description = "OpenDevUtils - Essential Developer Utilities (Desktop)"
+authors = ["OpenDevUtils"]
 license = "MIT"
 repository = ""
 edition = "2021"
 
 [lib]
-name = "trydevutils_desktop_lib"
+name = "opendevutils_desktop_lib"
 crate-type = ["lib", "cdylib", "staticlib"]
 
 [build-dependencies]

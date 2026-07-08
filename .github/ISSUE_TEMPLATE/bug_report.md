@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug in TryDevUtils
+about: Report a bug in OpenDevUtils
 title: "[BUG] "
 labels: bug
 assignees: ""
@@ -25,7 +25,7 @@ What actually happened?
 - **Browser:** Chrome/Firefox/Safari/Edge (version)
 - **OS:** macOS/Windows/Linux (version)
 - **Device:** Desktop/Mobile/Tablet
-- **TryDevUtils Version:** (check the footer or use latest)
+- **OpenDevUtils Version:** (check the footer or use latest)
 
 ## 📋 Additional Context
 - Tool name where the bug occurs

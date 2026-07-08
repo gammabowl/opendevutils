@@ -117,7 +117,7 @@ export function DesktopLayout() {
         <div data-tauri-drag-region className="flex items-center gap-2 flex-1 min-w-0" style={{ marginLeft: isMac ? 70 : 0 }}>
           <img src="/favicon.png" alt="" className="h-5 w-5 shrink-0 pointer-events-none" />
           <span className="text-sm font-semibold text-foreground pointer-events-none">
-            TryDevUtils
+            OpenDevUtils
           </span>
           {activeUtilId && (
             <>
