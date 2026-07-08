@@ -323,7 +323,7 @@ const Index = () => {
           </div>
           {/* Download pills */}
           <a
-            href="https://github.com/gammabowl/try-devutils/releases"
+            href="https://github.com/gammabowl/opendevutils/releases"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden lg:inline-flex items-center gap-2 text-sm text-muted-foreground bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 hover:border-blue-500/40 px-3 py-1.5 rounded-full hover:text-foreground transition-all duration-200 group"
