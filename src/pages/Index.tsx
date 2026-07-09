@@ -111,8 +111,8 @@ const Index = () => {
     setFavourites(getFavorites());
     // Set page title when on the grid
     document.title = extensionMode || isDesktop
-      ? "OpenDevUtils – Essential developer utilities"
-      : "OpenDevUtils – Essential developer utilities — Web, Desktop App & Chrome Extension";
+      ? "OpenDevUtils – Privacy-first developer utils"
+      : "OpenDevUtils – Privacy-first developer utils — Web, Desktop App & Chrome Extension";
   }, []);
 
   const toggleFavourite = (utilId: string) => {
@@ -136,7 +136,6 @@ const Index = () => {
 
   const desktopGridCols = "grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5";
   const webGridCols = "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
-
   if (extensionMode) {
     const categories = ["All", ...utilCategories];
     const normalizedQuery = query.trim().toLowerCase();
@@ -308,52 +307,50 @@ const Index = () => {
     );
   }
 
-  // Web: original layout from main
+  // Web: original layout with updated accent colours
   return (
     <div className="space-y-6">
       <div className="text-center">
         <div className="flex flex-wrap items-center justify-center gap-3">
           <div className="inline-flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
-            <Keyboard className="h-3.5 w-3.5" />
+            <Keyboard className="h-4 w-4" />
             <span>Press</span>
             <kbd className="px-1.5 py-0.5 rounded border bg-background text-xs font-mono">/</kbd>
             <span>to search or</span>
             <kbd className="px-1.5 py-0.5 rounded border bg-background text-xs font-mono">?</kbd>
             <span>for shortcuts</span>
           </div>
-          {/* Download pills */}
           <a
             href="https://github.com/gammabowl/opendevutils/releases"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:inline-flex items-center gap-2 text-sm text-muted-foreground bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 hover:border-blue-500/40 px-3 py-1.5 rounded-full hover:text-foreground transition-all duration-200 group"
+            className="hidden lg:inline-flex items-center gap-2 text-sm text-muted-foreground bg-gradient-to-r from-sky-500/10 to-emerald-500/10 border border-sky-500/20 hover:border-sky-500/40 px-3 py-1.5 rounded-full hover:text-foreground transition-all duration-200 group"
             aria-label="Download desktop app for macOS, Windows, and Linux"
           >
-            <Monitor className="h-3.5 w-3.5 text-blue-500" />
+            <Monitor className="h-3.5 w-3.5 text-sky-600" />
             <span>Get the Desktop App</span>
-            <Download className="h-3 w-3 text-blue-500 group-hover:translate-y-0.5 transition-transform" />
+            <Download className="h-3 w-3 text-sky-600 group-hover:translate-y-0.5 transition-transform" />
           </a>
           <a
             href="https://chromewebstore.google.com/detail/trydevutils/mkbkmocnckocblfdonfjmeeneojabadg"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground bg-gradient-to-r from-blue-500/10 via-red-500/10 to-yellow-500/10 border border-blue-500/25 hover:border-blue-500/45 px-3 py-1.5 rounded-full hover:text-foreground transition-all duration-200 group"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-emerald-500/10 border border-amber-500/25 hover:border-amber-500/45 px-3 py-1.5 rounded-full hover:text-foreground transition-all duration-200 group"
             aria-label="Install OpenDevUtils Chrome extension"
           >
-            <Chrome className="h-3.5 w-3.5 text-blue-500" />
+            <Chrome className="h-3.5 w-3.5 text-amber-600" />
             <span>Get the Chrome Extension</span>
-            <Download className="h-3 w-3 text-blue-500 group-hover:translate-y-0.5 transition-transform" />
+            <Download className="h-3 w-3 text-amber-600 group-hover:translate-y-0.5 transition-transform" />
           </a>
         </div>
       </div>
 
-      {/* Favorites Section */}
       {favouriteUtils.length > 0 && (
         <div className="space-y-4">
-          <div className="border border-blue-200/30 dark:border-blue-800/30 rounded-xl p-6 bg-card/30">
+          <div className="border border-sky-200/30 dark:border-sky-800/30 rounded-xl p-6 bg-card/30">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-blue-500/10 rounded-lg">
-                <Heart className="h-5 w-5 text-blue-500 fill-blue-500" />
+              <div className="p-2 bg-sky-500/10 rounded-lg">
+                <Heart className="h-5 w-5 text-sky-600 fill-sky-600" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-foreground">Your Favourites</h3>
@@ -374,7 +371,6 @@ const Index = () => {
         </div>
       )}
 
-      {/* All Utils Section */}
       <div className="space-y-4">
         {favouriteUtils.length > 0 && (
           <div className="flex items-center gap-3">

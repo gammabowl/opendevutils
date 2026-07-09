@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Sparkles, Info, Search, Keyboard, Shield, CheckCircle, Twitter, Home, EyeOff, Code, Cpu, Lock, Monitor, Bug, Lightbulb } from "lucide-react";
+import { Sparkles, Info, Search, Keyboard, Shield, CheckCircle, Twitter, EyeOff, Code, Monitor, Bug, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CommandPalette, useCommandPalette } from "@/components/CommandPalette";
 import { KeyboardShortcutsHelp, useGlobalKeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { isExtension } from "@/lib/platform";
+import { cn } from "@/lib/utils";
 
 export function Layout() {
   const { isOpen, setIsOpen } = useCommandPalette();
@@ -20,7 +21,19 @@ export function Layout() {
   const extensionMode = isExtension();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div
+      className={cn(
+        "min-h-screen bg-background flex flex-col",
+        !extensionMode && "relative overflow-x-clip"
+      )}
+    >
+      {!extensionMode && (
+        <>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(245,158,11,0.16),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0.03),transparent_70%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.14),transparent_32%),radial-gradient(circle_at_top_right,rgba(251,191,36,0.14),transparent_24%),linear-gradient(180deg,rgba(2,6,23,0.55),transparent_72%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,transparent_0,transparent_calc(100%-1px),hsl(var(--border)/0.28)_100%),linear-gradient(to_bottom,transparent_0,transparent_calc(100%-1px),hsl(var(--border)/0.28)_100%)] bg-[size:72px_72px] opacity-[0.14]" />
+        </>
+      )}
+
       {/* Command Palette */}
       <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} />
       
@@ -28,12 +41,28 @@ export function Layout() {
       <KeyboardShortcutsHelp isOpen={showHelp} onOpenChange={setShowHelp} />
 
       {/* Header */}
-      <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-3 sm:py-6">
+      <header
+        className={cn(
+          "sticky top-0 z-20",
+          extensionMode
+            ? "border-b border-border/50 bg-card/50 backdrop-blur-sm"
+            : "border-b border-border/40 bg-background/75 backdrop-blur-xl"
+        )}
+      >
+        <div className={cn(
+          extensionMode ? "container mx-auto px-4 py-3 sm:py-6" : "mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-10"
+        )}>
           <div className="flex items-center gap-1 sm:gap-2">
             <Link to="/" className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="OpenDevUtils Logo" className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg" />
-              <h1 className="text-lg sm:text-2xl font-bold text-foreground">OpenDevUtils</h1>
+              <div>
+                <h1 className="text-lg sm:text-2xl font-bold text-foreground">OpenDevUtils</h1>
+                {!extensionMode && (
+                  <p className="hidden lg:block text-[11px] uppercase tracking-[0.22em] text-muted-foreground/75">
+                    privacy-first developer utils
+                  </p>
+                )}
+              </div>
             </Link>
             <div className="ml-auto flex items-center gap-1">
               {/* Action buttons group */}
@@ -79,9 +108,16 @@ export function Layout() {
               </Button>
 
               {/* Privacy notice */}
-              <div className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/30">
-                <Sparkles className="h-3.5 w-3.5 text-dev-primary animate-pulse" />
-                <span className="text-xs text-muted-foreground whitespace-nowrap">No data leaves your browser</span>
+              <div
+                className={cn(
+                  "hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full",
+                  extensionMode
+                    ? "bg-muted/30"
+                    : "border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 to-sky-500/10 shadow-sm"
+                )}
+              >
+                <Sparkles className="h-3.5 w-3.5 text-emerald-600 animate-pulse" />
+                <span className="text-xs font-medium text-foreground whitespace-nowrap">No data leaves your browser</span>
               </div>
 
               {/* Info dialog */}
@@ -96,7 +132,7 @@ export function Layout() {
                     <div className="mx-auto mb-4">
                       <img src="/logo.png" alt="OpenDevUtils Logo" className="h-16 w-16 rounded-xl" />
                     </div>
-                    <DialogTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <DialogTitle className="text-xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">
                       Why Choose OpenDevUtils?
                     </DialogTitle>
                     <DialogDescription className="text-sm text-muted-foreground mt-2">
@@ -171,13 +207,29 @@ export function Layout() {
       </header>
 
       {/* Main Content */}
-      <main className={extensionMode ? "max-w-6xl mx-auto w-full px-4 py-4 flex-1" : "container mx-auto px-4 py-8 flex-1"}>
-        <Outlet />
+      <main
+        className={cn(
+          "flex-1 relative z-10",
+          extensionMode ? "max-w-6xl mx-auto w-full px-4 py-4" : "w-full px-4 py-8 sm:px-6 lg:px-10 lg:py-10"
+        )}
+      >
+        <div className={cn(!extensionMode && "mx-auto w-full max-w-7xl")}>
+          <Outlet />
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 bg-card/30 backdrop-blur-sm mt-auto">
-        <div className="container mx-auto px-4 py-2 md:py-3">
+      <footer
+        className={cn(
+          "border-t mt-auto",
+          extensionMode
+            ? "border-border/50 bg-card/30 backdrop-blur-sm"
+            : "border-border/40 bg-background/75 backdrop-blur-xl"
+        )}
+      >
+        <div className={cn(
+          extensionMode ? "container mx-auto px-4 py-2 md:py-3" : "mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-10"
+        )}>
           <div className="flex items-center justify-between gap-2 md:gap-4">
             {/* Compact footer for all except desktop */}
             <div className="flex items-center gap-2 lg:gap-6 text-sm">
