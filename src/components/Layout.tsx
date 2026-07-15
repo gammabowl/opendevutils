@@ -109,14 +109,9 @@ export function Layout() {
 
               {/* Privacy notice */}
               <div
-                className={cn(
-                  "hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full",
-                  extensionMode
-                    ? "bg-muted/30"
-                    : "border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 to-sky-500/10 shadow-sm"
-                )}
+                className="hidden h-8 items-center gap-1.5 rounded-md border border-input bg-background px-3 md:flex"
               >
-                <Sparkles className="h-3.5 w-3.5 text-emerald-600 animate-pulse" />
+                <Sparkles className="h-3.5 w-3.5 text-rose-600 animate-pulse dark:text-rose-400" />
                 <span className="text-xs font-medium text-foreground whitespace-nowrap">No data leaves your browser</span>
               </div>
 
