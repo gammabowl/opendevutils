@@ -5,6 +5,7 @@ const utilImports = {
   base64: () => import("@/components/utils/Base64Converter"),
   color: () => import("@/components/utils/ColorConverter"),
   cron: () => import("@/components/utils/CronParser"),
+  curl: () => import("@/components/utils/CurlCodeConverter"),
   hash: () => import("@/components/utils/HashGenerator"),
   httpstatus: () => import("@/components/utils/HttpStatusCodeReference"),
   json: () => import("@/components/utils/JsonFormatter"),
@@ -51,6 +52,7 @@ export function prefetchUtil(utilId: string): void {
 export const LazyBase64Converter = lazy(() => utilImports.base64().then(m => ({ default: m.Base64Converter })));
 export const LazyColorConverter = lazy(() => utilImports.color().then(m => ({ default: m.ColorConverter })));
 export const LazyCronParser = lazy(() => utilImports.cron().then(m => ({ default: m.CronParser })));
+export const LazyCurlCodeConverter = lazy(() => utilImports.curl().then(m => ({ default: m.CurlCodeConverter })));
 export const LazyHashGenerator = lazy(() => utilImports.hash().then(m => ({ default: m.HashGenerator })));
 export const LazyHttpStatusCodeReference = lazy(() => utilImports.httpstatus().then(m => ({ default: m.HttpStatusCodeReference })));
 export const LazyJsonFormatter = lazy(() => utilImports.json().then(m => ({ default: m.JsonFormatter })));

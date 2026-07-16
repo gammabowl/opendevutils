@@ -9,6 +9,7 @@ import {
   LazyBase64Converter,
   LazyColorConverter,
   LazyCronParser,
+  LazyCurlCodeConverter,
   LazyHashGenerator,
   LazyHttpStatusCodeReference,
   LazyJsonFormatter,
@@ -52,6 +53,7 @@ import {
   Key,
   LucideIcon,
   FileSearch,
+  TerminalSquare,
 } from "lucide-react";
 
 export type UtilCategory = "Encoding & Decoding" | "Formatting & Validation" | "Generators" | "Text & Diff" | "Security & Crypto" | "Reference";
@@ -80,6 +82,7 @@ export interface Util {
 export const utils: Util[] = [
   { id: "base64", label: "Base64 Converter", icon: DecimalsArrowRight, component: LazyBase64Converter, description: "Encode and decode Base64 strings", color: "from-rose-500 to-rose-600", textColor: "text-rose-600", bgColor: "bg-rose-500/10", category: "Encoding & Decoding" },
   { id: "url", label: "URL Encoder/Decoder", icon: Link, component: LazyUrlEncoderDecoder, description: "Encode and decode URL strings", color: "from-pink-500 to-pink-600", textColor: "text-pink-600", bgColor: "bg-pink-500/10", category: "Encoding & Decoding" },
+  { id: "curl", label: "cURL to Code", icon: TerminalSquare, component: LazyCurlCodeConverter, description: "Convert cURL commands to application code", color: "from-stone-500 to-stone-600", textColor: "text-stone-600", bgColor: "bg-stone-500/10", category: "Encoding & Decoding" },
   { id: "numberbase", label: "Number Base Converter", icon: Binary, component: LazyNumberBaseConverter, description: "Convert between binary, octal, decimal, hex", color: "from-yellow-500 to-yellow-600", textColor: "text-yellow-600", bgColor: "bg-yellow-500/10", category: "Encoding & Decoding" },
   { id: "zlib", label: "Zlib Compressor/Decompressor", icon: Zap, component: LazyZlibCompressor, description: "Compress & decompress (zlib + Base64)", color: "from-slate-500 to-slate-600", textColor: "text-slate-600", bgColor: "bg-slate-500/10", category: "Encoding & Decoding" },
   { id: "color", label: "Colour Converter", icon: Palette, component: LazyColorConverter, description: "Convert between colour formats", color: "from-fuchsia-500 to-fuchsia-600", textColor: "text-fuchsia-600", bgColor: "bg-fuchsia-500/10", category: "Encoding & Decoding" },
