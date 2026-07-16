@@ -27,13 +27,6 @@ export function Layout() {
         !extensionMode && "relative overflow-x-clip"
       )}
     >
-      {!extensionMode && (
-        <>
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(245,158,11,0.16),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0.03),transparent_70%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.14),transparent_32%),radial-gradient(circle_at_top_right,rgba(251,191,36,0.14),transparent_24%),linear-gradient(180deg,rgba(2,6,23,0.55),transparent_72%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,transparent_0,transparent_calc(100%-1px),hsl(var(--border)/0.28)_100%),linear-gradient(to_bottom,transparent_0,transparent_calc(100%-1px),hsl(var(--border)/0.28)_100%)] bg-[size:72px_72px] opacity-[0.14]" />
-        </>
-      )}
-
       {/* Command Palette */}
       <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} />
       
