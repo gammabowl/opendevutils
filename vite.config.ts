@@ -5,6 +5,19 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const host = process.env.TAURI_DEV_HOST;
 
+const deferEntryStylesheets = {
+  name: "defer-entry-stylesheets",
+  enforce: "post" as const,
+  transformIndexHtml(html: string) {
+    return html.replace(
+      /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
+      (_, href: string) =>
+        `<link rel="preload" crossorigin href="${href}" as="style" onload="this.onload=null;this.rel='stylesheet'">` +
+        `<noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
+    );
+  },
+};
+
 export default defineConfig(({ mode }) => {
   const isExtension = mode === "extension";
   const isTauri = !!process.env.TAURI_ENV_PLATFORM;
@@ -31,12 +44,14 @@ export default defineConfig(({ mode }) => {
 
     plugins: [
       react(),
+      ...(isWebProduction ? [deferEntryStylesheets] : []),
 
       // Only enable PWA for production web builds
       ...(isWebProduction
         ? [
             VitePWA({
               registerType: "autoUpdate",
+              injectRegister: "script-defer",
               workbox: {
                 globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
                 globIgnores: ["privacy/**"],

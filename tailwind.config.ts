@@ -5,10 +5,13 @@ import tailwindcssTypography from "@tailwindcss/typography";
 export default {
 	darkMode: ["class"],
 	content: [
-		"./pages/**/*.{ts,tsx}",
-		"./components/**/*.{ts,tsx}",
-		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		"./index.html",
+		"./src/main.tsx",
+		"./src/App.tsx",
+		"./src/lib/utils.ts",
+		"./src/pages/{Index,NotFound,PrivacyRedirect}.tsx",
+		"./src/components/{Layout,CommandPalette,KeyboardShortcuts,theme-toggle,theme-provider}.tsx",
+		"./src/components/ui/{button,dialog,tooltip}.tsx",
 	],
 	prefix: "",
 	theme: {

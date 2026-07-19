@@ -324,7 +324,7 @@ const Index = () => {
             href="https://github.com/gammabowl/opendevutils/releases"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1.5 text-sm font-medium text-sky-700 transition-all duration-200 hover:border-sky-500/50 hover:bg-sky-500/15 dark:text-sky-300 group"
+            className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1.5 text-sm font-medium text-sky-700 transition-all duration-200 hover:border-sky-500/50 hover:bg-sky-500/15 dark:text-sky-300 group"
             aria-label="Download desktop app for macOS, Windows, and Linux"
           >
             <Monitor className="h-3.5 w-3.5 text-sky-600" />

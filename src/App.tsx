@@ -1,17 +1,16 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { DesktopLayout } from "./components/DesktopLayout";
-import Index from "./pages/Index";
-import { UtilPage } from "./pages/UtilPage";
-import NotFound from "./pages/NotFound";
-import PrivacyRedirect from "./pages/PrivacyRedirect";
 import { isExtension, isTauri } from "@/lib/platform";
 
-const queryClient = new QueryClient();
+const Index = lazy(() => import("./pages/Index"));
+const UtilPage = lazy(() => import("./pages/UtilPage").then(({ UtilPage }) => ({ default: UtilPage })));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyRedirect = lazy(() => import("./pages/PrivacyRedirect"));
+const DesktopLayout = lazy(() =>
+  import("./components/DesktopLayout").then(({ DesktopLayout }) => ({ default: DesktopLayout }))
+);
 
 /**
  * Use HashRouter in Tauri/extension (no History API),
@@ -22,16 +21,9 @@ const AppLayout = isTauri() ? DesktopLayout : Layout;
 const isWeb = !isTauri() && !isExtension();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <Router
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
+  <TooltipProvider>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Suspense fallback={null}>
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<Index />} />
@@ -39,12 +31,11 @@ const App = () => (
             {isWeb && <Route path="/privacy/" element={<PrivacyRedirect />} />}
             <Route path="/:utilId" element={<UtilPage />} />
           </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
-    </TooltipProvider>
-  </QueryClientProvider>
+      </Suspense>
+    </Router>
+  </TooltipProvider>
 );
 
 export default App;

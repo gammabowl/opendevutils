@@ -28,10 +28,10 @@ export function Layout() {
       )}
     >
       {/* Command Palette */}
-      <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} />
+      {isOpen && <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} />}
       
       {/* Keyboard Shortcuts Help */}
-      <KeyboardShortcutsHelp isOpen={showHelp} onOpenChange={setShowHelp} />
+      {showHelp && <KeyboardShortcutsHelp isOpen={showHelp} onOpenChange={setShowHelp} />}
 
       {/* Header */}
       <header
@@ -39,7 +39,7 @@ export function Layout() {
           "sticky top-0 z-20",
           extensionMode
             ? "border-b border-border/50 bg-card/50 backdrop-blur-sm"
-            : "border-b border-border/40 bg-background/75 backdrop-blur-xl"
+            : "border-b border-border/60 bg-background"
         )}
       >
         <div className={cn(
@@ -51,7 +51,7 @@ export function Layout() {
               <div>
                 <h1 className="text-lg sm:text-2xl font-bold text-foreground">OpenDevUtils</h1>
                 {!extensionMode && (
-                  <p className="hidden lg:block text-[11px] uppercase tracking-[0.22em] text-muted-foreground/75">
+                  <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.22em] text-foreground">
                     privacy-first developer utils
                   </p>
                 )}
