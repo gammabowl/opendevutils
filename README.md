@@ -57,7 +57,7 @@ extension/  # Extension manifest + icons
 **CI / deploy**
 
 - GitHub Actions runs build + tests on push/PR.
-- Vercel deploys preview and production from `main`.
+- Cloudflare Pages deploys preview and production from `main`.
 
 **Acknowledgments**
 

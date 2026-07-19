@@ -119,7 +119,6 @@
     "terser": "^5.49.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0",
-    "vite": "^7.3.5",
-    "vite-plugin-pwa": "^1.3.0"
+    "vite": "^7.3.5"
   }
 }

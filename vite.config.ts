@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { VitePWA } from "vite-plugin-pwa";
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -45,59 +44,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       ...(isWebProduction ? [deferEntryStylesheets] : []),
-
-      // Only enable PWA for production web builds
-      ...(isWebProduction
-        ? [
-            VitePWA({
-              registerType: "autoUpdate",
-              injectRegister: "script-defer",
-              workbox: {
-                globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
-                globIgnores: ["privacy/**"],
-                runtimeCaching: [
-                  {
-                    urlPattern: ({ url }) =>
-                      url.pathname === "/privacy" ||
-                      url.pathname.startsWith("/privacy/"),
-                    handler: "NetworkOnly",
-                  },
-                ],
-              },
-              includeAssets: [
-                "favicon.ico",
-                "favicon.png",
-                "og_opendevutils.png",
-              ],
-              manifest: {
-                name: "OpenDevUtils",
-                short_name: "OpenDevUtils",
-                description: "Essential Developer Utilities",
-                theme_color: "#000000",
-                background_color: "#ffffff",
-                display: "standalone",
-                start_url: "/",
-                scope: "/",
-                icons: [
-                  {
-                    src: "favicon.png",
-                    sizes: "32x32",
-                    type: "image/png",
-                  },
-                  {
-                    src: "logo.png",
-                    sizes: "32x32",
-                    type: "image/png",
-                    purpose: "any maskable",
-                  },
-                ],
-                categories: ["developer", "productivity", "utilities"],
-                lang: "en",
-                dir: "ltr",
-              },
-            }),
-          ]
-        : []),
     ],
 
     resolve: {
