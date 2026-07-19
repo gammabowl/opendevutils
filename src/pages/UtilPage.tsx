@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, Suspense } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { Toaster } from "@/components/ui/toaster";
 import { utils } from "@/lib/utils";
 import { isTauri } from "@/lib/platform";
 
@@ -55,6 +56,7 @@ export function UtilPage() {
 
   return (
     <div className={isDesktop ? "flex flex-col flex-1 min-h-0" : "space-y-6"}>
+      <Toaster />
       {/* Structured Data */}
       {!isDesktop && (
         <script type="application/ld+json">
