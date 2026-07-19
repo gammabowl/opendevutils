@@ -1,0 +1,46 @@
+# OpenDevUtils
+
+> OpenDevUtils is a privacy-first collection of developer utilities available as a web app, desktop app, and Chrome extension. Tools run locally in the browser or app; do not submit production secrets, private keys, tokens, or certificates to any online tool unless you understand its handling.
+
+Use the homepage to discover the full collection. Each utility URL opens an interactive, client-side tool. The site does not currently publish Markdown mirrors of these pages.
+
+## Core tools
+
+- [OpenDevUtils home](https://www.opendevutils.com/): Browse all utilities, desktop downloads, Chrome extension information, and the webhook inspector.
+- [JSON Toolbox](https://www.opendevutils.com/json): Format, validate, diff, query, convert, and generate schemas for JSON.
+- [Base64 Converter](https://www.opendevutils.com/base64): Encode and decode Base64 strings.
+- [URL Encoder/Decoder](https://www.opendevutils.com/url): Encode and decode URL strings.
+- [cURL to Code](https://www.opendevutils.com/curl): Convert cURL commands into application code.
+- [YAML Validator](https://www.opendevutils.com/yaml): Validate and convert YAML.
+- [SQL Formatter](https://www.opendevutils.com/sql): Format PostgreSQL, MySQL, MariaDB, and PL/SQL queries.
+- [Markdown Preview](https://www.opendevutils.com/markdown): Preview Markdown as rendered HTML.
+
+## Conversion and formatting
+
+- [Colour Converter](https://www.opendevutils.com/color): Convert between colour formats.
+- [Number Base Converter](https://www.opendevutils.com/numberbase): Convert binary, octal, decimal, and hexadecimal values.
+- [Zlib Compressor/Decompressor](https://www.opendevutils.com/zlib): Compress and decompress zlib data with Base64 support.
+- [Cron Parser](https://www.opendevutils.com/cron): Parse and explain cron expressions.
+- [RegExp Tester](https://www.opendevutils.com/regex): Test and debug regular expressions.
+- [Timestamp/Date Converter](https://www.opendevutils.com/timestamp): Convert Unix timestamps, compare dates, and inspect date values.
+- [String Analyser](https://www.opendevutils.com/string): Analyse text statistics and transform letter case.
+- [Text Diff](https://www.opendevutils.com/diff): Compare two text inputs and identify differences.
+
+## Security and generators
+
+- [JWT Decoder/Encoder](https://www.opendevutils.com/jwt): Decode, encode, and validate JWT tokens.
+- [Hash Generator](https://www.opendevutils.com/hash): Generate MD5, SHA-1, SHA-256, SHA-512, and bcrypt hashes.
+- [Key Pair Generator](https://www.opendevutils.com/keypair): Generate RSA, Ed25519, and ECDSA key pairs for SSL and SSH.
+- [UUID Generator/Decoder](https://www.opendevutils.com/uuid): Generate, validate, and decode UUID versions 1, 3, 4, 5, 6, and 7.
+- [SSL Certificate Decoder](https://www.opendevutils.com/ssl): Decode and inspect X.509 certificates.
+
+## Reference
+
+- [HTTP Status Code Reference](https://www.opendevutils.com/httpstatus): Look up HTTP response status codes and meanings.
+- [MIME Type Lookup](https://www.opendevutils.com/mimetype): Convert between file extensions and MIME types.
+
+## Optional
+
+- [Privacy policy](https://www.opendevutils.com/privacy): Privacy information for the web app.
+- [Source code](https://github.com/gammabowl/opendevutils): OpenDevUtils source repository, contribution guidance, and release history.
+- [XML sitemap](https://www.opendevutils.com/sitemap.xml): Complete list of indexable public website URLs.
