@@ -345,6 +345,7 @@ const Index = () => {
         </div>
       </div>
 
+      {!isDesktop && !extensionMode && (
       <section
         aria-labelledby="webhook-inspector-title"
         className="relative overflow-hidden rounded-xl border border-violet-500/30 bg-card/70 p-4 shadow-sm sm:p-5"
@@ -390,6 +391,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {favouriteUtils.length > 0 && (
         <div className="space-y-4">
