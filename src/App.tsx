@@ -17,7 +17,7 @@ const DesktopLayout = lazy(() =>
  * BrowserRouter for the web version.
  */
 const Router = isTauri() || isExtension() ? HashRouter : BrowserRouter;
-const AppLayout = isTauri() ? DesktopLayout : Layout;
+const AppLayout = isTauri() || isExtension() ? DesktopLayout : Layout;
 const isWeb = !isTauri() && !isExtension();
 
 const App = () => (

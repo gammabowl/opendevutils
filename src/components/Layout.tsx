@@ -206,60 +206,52 @@ export function Layout() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer
-        className={cn(
-          "border-t mt-auto",
-          extensionMode
-            ? "border-border/50 bg-card/30 backdrop-blur-sm"
-            : "border-border/40 bg-background/75 backdrop-blur-xl"
-        )}
-      >
-        <div className={cn(
-          extensionMode ? "container mx-auto px-4 py-2 md:py-3" : "mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-10"
-        )}>
-          <div className="flex items-center justify-between gap-2 md:gap-4">
-            {/* Compact footer for all except desktop */}
-            <div className="flex items-center gap-2 lg:gap-6 text-sm">
-              <span className="font-medium lg:hidden text-xs">Local . Private . Ad-free . Opensource</span>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="All processing happens locally">
+      {/* Footer — kept identical (markup and content) to DesktopLayout's
+          footer, used by the Tauri desktop app and the Chrome extension, so
+          all three surfaces show the same footer. */}
+      <footer className="border-t border-border/40 bg-background/75 backdrop-blur-xl mt-auto">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-10">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 lg:gap-x-14">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 lg:gap-x-8 text-sm">
+              <span className="shell-footer-compact font-medium text-xs">Local . Private . Ad-free . Opensource</span>
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="All processing happens locally">
                 <Monitor className="h-4 w-4 text-green-600" />
                 <span className="font-medium">All processing happens locally</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="No tracking, not even analytics">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="No tracking, not even analytics">
                 <EyeOff className="h-4 w-4 text-blue-600" />
                 <span className="font-medium">No tracking, not even analytics</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="Ad-free">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="Ad-free">
                 <span className="text-red-500 text-sm">🚫</span>
                 <span className="font-medium">Ad-free</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="Open source">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="Open source">
                 <Code className="h-4 w-4 text-purple-600" />
                 <span className="font-medium">Open source</span>
               </div>
             </div>
             {/* Links - always visible */}
-            <div className="flex items-center gap-2 md:gap-6 text-sm">
+            <div className="flex items-center gap-4 md:gap-8 text-sm">
               <a
                 href="https://github.com/gammabowl/opendevutils/issues/new?template=feature_request.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 title="Feature Request"
               >
                 <Lightbulb className="h-4 w-4 text-yellow-500" />
-                <span className="font-medium hidden md:inline">Feature Request</span>
+                <span className="shell-footer-link-label font-medium">Feature Request</span>
               </a>
               <a
                 href="https://github.com/gammabowl/opendevutils/issues/new?template=bug_report.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 title="Report Bug"
               >
                 <Bug className="h-4 w-4 text-red-500" />
-                <span className="font-medium hidden md:inline">Report Bug</span>
+                <span className="shell-footer-link-label font-medium">Report Bug</span>
               </a>
             </div>
           </div>

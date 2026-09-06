@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { utils, utilCategories } from "@/lib/utils";
-import { getPlatformSync, getModifierKey } from "@/lib/platform";
+import { getPlatformSync, getModifierKey, isTauri, isExtension } from "@/lib/platform";
 import { CommandPalette, useCommandPalette } from "@/components/CommandPalette";
 import { KeyboardShortcutsHelp, useGlobalKeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { Search, ChevronLeft, ChevronRight, Home, Bug, Lightbulb, Keyboard, Monitor, EyeOff, Code } from "lucide-react";
@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 import { getVersion } from "@tauri-apps/api/app";
 
 const FAVORITES_STORAGE_KEY = "try-devutils-favourites";
+const SIDEBAR_WIDTH_STORAGE_KEY = "opendevutils-sidebar-width";
+const SIDEBAR_MIN_WIDTH = 180;
+const SIDEBAR_MAX_WIDTH = 420;
+const SIDEBAR_DEFAULT_WIDTH = 240;
 
 function getFavorites(): string[] {
   try {
@@ -21,6 +25,18 @@ function getFavorites(): string[] {
   } catch {
     return [];
   }
+}
+
+function getStoredSidebarWidth(): number {
+  try {
+    const stored = Number(localStorage.getItem(SIDEBAR_WIDTH_STORAGE_KEY));
+    if (Number.isFinite(stored) && stored >= SIDEBAR_MIN_WIDTH && stored <= SIDEBAR_MAX_WIDTH) {
+      return stored;
+    }
+  } catch {
+    // Ignore; fall through to default.
+  }
+  return SIDEBAR_DEFAULT_WIDTH;
 }
 
 /**
@@ -34,13 +50,20 @@ export function DesktopLayout() {
   const navigate = useNavigate();
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(getStoredSidebarWidth);
+  const [isResizingSidebar, setIsResizingSidebar] = useState(false);
   const [sidebarFilter, setSidebarFilter] = useState("");
   const [favourites, setFavourites] = useState<string[]>(getFavorites());
   const [appVersion, setAppVersion] = useState<string | null>(null);
   const filterInputRef = useRef<HTMLInputElement>(null);
   const platform = getPlatformSync();
   const modKey = getModifierKey();
-  const isMac = platform === "macos";
+  const isDesktopApp = isTauri();
+  const inExtension = isExtension();
+  // Native window chrome (traffic-light spacing, taller drag region) only
+  // applies to the actual Tauri window — the extension runs in a normal
+  // browser tab/popup with no native title bar to make room for.
+  const isMac = isDesktopApp && platform === "macos";
 
   // Refresh favourites on storage change (other windows)
   useEffect(() => {
@@ -50,12 +73,20 @@ export function DesktopLayout() {
   }, []);
 
   useEffect(() => {
-    getVersion()
-      .then((version) => setAppVersion(version))
-      .catch(() => {
-        // Best effort; keep footer readable even if version fetch fails.
-      });
-  }, []);
+    if (isDesktopApp) {
+      getVersion()
+        .then((version) => setAppVersion(version))
+        .catch(() => {
+          // Best effort; keep footer readable even if version fetch fails.
+        });
+    } else if (inExtension) {
+      try {
+        setAppVersion(chrome.runtime.getManifest().version);
+      } catch {
+        // Best effort; keep footer readable even if this fails.
+      }
+    }
+  }, [isDesktopApp, inExtension]);
 
   // Active util
   const activeUtilId = location.pathname.replace("/", "") || null;
@@ -84,6 +115,39 @@ export function DesktopLayout() {
     return grouped;
   }, [filtered, favourites]);
 
+  // Drag-to-resize sidebar
+  const startSidebarResize = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = sidebarWidth;
+    setIsResizingSidebar(true);
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const nextWidth = Math.min(
+        SIDEBAR_MAX_WIDTH,
+        Math.max(SIDEBAR_MIN_WIDTH, startWidth + (moveEvent.clientX - startX))
+      );
+      setSidebarWidth(nextWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizingSidebar(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      setSidebarWidth((current) => {
+        try {
+          localStorage.setItem(SIDEBAR_WIDTH_STORAGE_KEY, String(current));
+        } catch {
+          // Best effort; width just won't persist across sessions.
+        }
+        return current;
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  }, [sidebarWidth]);
+
   // Focus sidebar filter with Cmd/Ctrl+F
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -102,7 +166,7 @@ export function DesktopLayout() {
   }, [handleKeyDown]);
 
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden desktop">
+    <div className={cn("h-screen flex flex-col bg-background overflow-hidden desktop", isResizingSidebar && "select-none cursor-col-resize")}>
       {/* Command Palette */}
       <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} />
       <KeyboardShortcutsHelp isOpen={showHelp} onOpenChange={setShowHelp} />
@@ -178,9 +242,10 @@ export function DesktopLayout() {
         {/* Sidebar */}
         <aside
           className={cn(
-            "flex flex-col border-r border-border/50 bg-card/40 transition-[width] duration-200 ease-in-out shrink-0 select-none",
-            sidebarCollapsed ? "w-12" : "w-60"
+            "flex flex-col border-r border-border/50 bg-card/40 shrink-0 select-none",
+            !isResizingSidebar && "transition-[width] duration-200 ease-in-out"
           )}
+          style={{ width: sidebarCollapsed ? 48 : sidebarWidth }}
         >
           {/* Sidebar header */}
           <div className="flex items-center justify-between p-2 gap-1 shrink-0">
@@ -191,9 +256,19 @@ export function DesktopLayout() {
                   ref={filterInputRef}
                   value={sidebarFilter}
                   onChange={(e) => setSidebarFilter(e.target.value)}
-                  placeholder={`Filter (${modKey}F)`}
-                  className="h-7 pl-7 text-xs bg-background/60 border-border/40"
+                  placeholder="Filter"
+                  className="h-7 text-sm bg-background/60 border-border/40"
+                  // Inline styles (not pl-7/pr-9 classes) so this can never
+                  // lose a cascade tie to the Input component's own base
+                  // "px-3" class once tool.css (see tool.css / index.css's
+                  // "Home shell layout" comment) loads a second copy of it
+                  // on visiting any util — inline styles always win
+                  // regardless of stylesheet load order.
+                  style={{ paddingLeft: "1.75rem", paddingRight: "2.25rem" }}
                 />
+                <kbd className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-4 items-center rounded border bg-muted px-1 font-mono text-[9px] text-muted-foreground/70">
+                  {modKey}F
+                </kbd>
               </div>
             )}
             <Button
@@ -217,7 +292,7 @@ export function DesktopLayout() {
               to="/"
               title={sidebarCollapsed ? "All Utilities" : undefined}
               className={cn(
-                "flex items-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-colors",
+                "flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium transition-colors",
                 !activeUtilId
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
@@ -235,7 +310,7 @@ export function DesktopLayout() {
               {favouriteUtils.length > 0 && (
                 <div>
                   {!sidebarCollapsed && (
-                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground/60 font-semibold px-2 mb-1">
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground/60 font-semibold px-2 mb-1">
                       Favourites
                     </p>
                   )}
@@ -259,7 +334,7 @@ export function DesktopLayout() {
               {Array.from(categorizedSidebar.entries()).map(([category, items]) => (
                 <div key={category}>
                   {!sidebarCollapsed && (
-                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground/60 font-semibold px-2 mb-1">
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground/60 font-semibold px-2 mb-1">
                       {category}
                     </p>
                   )}
@@ -281,62 +356,77 @@ export function DesktopLayout() {
           {/* Sidebar footer */}
           {!sidebarCollapsed && (
             <div className="border-t border-border/30 p-2 text-[10px] text-muted-foreground/50 text-center shrink-0">
-              {appVersion ? `v${appVersion} · Desktop` : "Desktop"}
+              {appVersion ? `v${appVersion} · ${isDesktopApp ? "Desktop" : "Extension"}` : (isDesktopApp ? "Desktop" : "Extension")}
             </div>
           )}
         </aside>
 
+        {/* Sidebar resize handle */}
+        {!sidebarCollapsed && (
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize sidebar"
+            onMouseDown={startSidebarResize}
+            className={cn(
+              "w-1.5 shrink-0 cursor-col-resize hover:bg-dev-primary/40 transition-colors",
+              isResizingSidebar && "bg-dev-primary/60"
+            )}
+          />
+        )}
+
         {/* Main content */}
         <main className="flex-1 overflow-hidden bg-background flex flex-col min-h-0">
-          <div className="px-4 py-3 flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div className="px-4 py-3 flex-1 flex flex-col min-h-0 overflow-y-auto">
             <Outlet />
           </div>
         </main>
       </div>
 
-      {/* Footer (same as web desktop view) */}
-      <footer className="border-t border-border/50 bg-card/30 backdrop-blur-sm mt-auto">
-        <div className="container mx-auto px-4 py-2 md:py-3">
-          <div className="flex items-center justify-between gap-2 md:gap-4">
-            <div className="flex items-center gap-2 lg:gap-6 text-sm">
-              <span className="font-medium lg:hidden text-xs">Local . Private . Ad-free . Opensource</span>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="All processing happens locally">
+      {/* Footer — kept identical (markup and content) to Layout.tsx's
+          footer so web, desktop, and extension all render the same one. */}
+      <footer className="border-t border-border/40 bg-background/75 backdrop-blur-xl mt-auto">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-10">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 lg:gap-x-14">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 lg:gap-x-8 text-sm">
+              <span className="shell-footer-compact font-medium text-xs">Local . Private . Ad-free . Opensource</span>
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="All processing happens locally">
                 <Monitor className="h-4 w-4 text-green-600" />
                 <span className="font-medium">All processing happens locally</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="No tracking, not even analytics">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="No tracking, not even analytics">
                 <EyeOff className="h-4 w-4 text-blue-600" />
                 <span className="font-medium">No tracking, not even analytics</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="Ad-free">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="Ad-free">
                 <span className="text-red-500 text-sm">🚫</span>
                 <span className="font-medium">Ad-free</span>
               </div>
-              <div className="hidden lg:flex items-center gap-1.5 text-muted-foreground" title="Open source">
+              <div className="shell-footer-detail items-center gap-2 text-muted-foreground" title="Open source">
                 <Code className="h-4 w-4 text-purple-600" />
                 <span className="font-medium">Open source</span>
               </div>
             </div>
-            <div className="flex items-center gap-2 md:gap-6 text-sm">
+            <div className="flex items-center gap-4 md:gap-8 text-sm">
               <a
                 href="https://github.com/gammabowl/opendevutils/issues/new?template=feature_request.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 title="Feature Request"
               >
                 <Lightbulb className="h-4 w-4 text-yellow-500" />
-                <span className="font-medium hidden md:inline">Feature Request</span>
+                <span className="shell-footer-link-label font-medium">Feature Request</span>
               </a>
               <a
                 href="https://github.com/gammabowl/opendevutils/issues/new?template=bug_report.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 title="Report Bug"
               >
                 <Bug className="h-4 w-4 text-red-500" />
-                <span className="font-medium hidden md:inline">Report Bug</span>
+                <span className="shell-footer-link-label font-medium">Report Bug</span>
               </a>
             </div>
           </div>
@@ -360,7 +450,7 @@ function SidebarItem({ util, active, collapsed }: SidebarItemProps) {
       to={`/${util.id}`}
       title={collapsed ? util.label : undefined}
       className={cn(
-        "flex items-center gap-2 rounded-md px-2 py-2 text-xs transition-colors group",
+        "flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors group",
         active
           ? "bg-accent text-accent-foreground font-medium"
           : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
