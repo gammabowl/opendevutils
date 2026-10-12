@@ -10,7 +10,7 @@ export default {
 		"./src/App.tsx",
 		"./src/lib/utils.ts",
 		"./src/pages/{Index,NotFound,PrivacyRedirect}.tsx",
-		"./src/components/{Layout,CommandPalette,KeyboardShortcuts,theme-toggle,theme-provider}.tsx",
+		"./src/components/{Layout,DesktopLayout,CommandPalette,KeyboardShortcuts,theme-toggle,theme-provider}.tsx",
 		"./src/components/ui/{button,dialog,tooltip}.tsx",
 	],
 	prefix: "",

@@ -153,6 +153,7 @@ All colors MUST be HSL.
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -565,7 +566,30 @@ All colors MUST be HSL.
 
 /* ── Tool-card: frameless, fills the pane ── */
 
-.desktop .tool-card > div:first-child:has(h3) { display: none; }
+/*
+ * The card header's <h3> title is redundant on desktop/extension (the same
+ * name already shows in DesktopLayout's title-bar breadcrumb). The header
+ * also holds each tool's "Examples" popover trigger (a sibling of the
+ * <h3>) for the tools that have one — hiding the entire header (as before)
+ * silently removed that button too. So: headers with no other content
+ * (no button) collapse away entirely as before; headers that also have a
+ * button stay visible, just without the redundant title.
+ */
+.desktop .tool-card > div:first-child:has(h3):not(:has(button)) {
+  display: none;
+}
+.desktop .tool-card > div:first-child:has(h3):has(button) {
+  padding: 0.5rem 0.75rem;
+}
+.desktop .tool-card > div:first-child:has(h3):has(button) h3 {
+  display: none;
+}
+/* With the title gone, the row's only visible child (the Examples button)
+   would sit at the flex-start (left) under "justify-between" with one
+   item — push it to the right, matching where it sits on web. */
+.desktop .tool-card > div:first-child:has(h3):has(button) > div {
+  justify-content: flex-end;
+}
 
 .desktop .tool-card {
   border: none;
@@ -633,20 +657,36 @@ All colors MUST be HSL.
   min-height: 0;
 }
 
-/* Any container wrapping a textarea or pre should stretch */
+/*
+ * Any container wrapping a textarea or pre should stretch — but never
+ * below its own content's natural minimum ("auto", the flexbox default —
+ * NOT the "0" this used to be). Without a real floor, a tool whose total
+ * content is taller than the visible pane (e.g. SSL Certificate Decoder's
+ * long results table) pushes ALL of the available-space deficit onto this
+ * flex-basis:0% container, collapsing it to literal 0px — while its
+ * textarea child still renders at its own forced 150px minimum (and any
+ * sibling, e.g. a <label> row above it, adds more), bleeding out and
+ * overlapping whatever comes after it (the decode button, the results
+ * panel) instead of the layout just scrolling. A fixed pixel floor here
+ * would be wrong as often as right, since different tools nest different
+ * amounts of extra content (labels, hints) inside this same wrapper
+ * alongside the textarea — "auto" adapts to whatever's actually there.
+ * Dual-pane grid tools (JSON diff, etc.) are unaffected — this only
+ * touches the single-column wrapper pattern.
+ */
 .desktop .tool-card div:has(> textarea),
 .desktop .tool-card div:has(> pre) {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 0;
+  min-height: auto;
 }
 .desktop .tool-card .relative:has(> textarea),
 .desktop .tool-card .relative:has(> pre) {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 0;
+  min-height: auto;
 }
 
 /* Keep code editor line numbers aligned horizontally */
@@ -769,7 +809,107 @@ All colors MUST be HSL.
 .desktop ::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.2); border-radius: 4px; }
 .desktop ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.35); }
 
-/* No web-style hover effects */
-.desktop .hover\:scale-\[1\.03\]:hover,
-.desktop .hover\:scale-105:hover { transform: none !important; }
-.desktop .hover\:shadow-md:hover { box-shadow: none !important; }
+/*
+ * ── Home shell layout (collision-proof) ──
+ * These elements (sidebar visibility, home grid column counts) previously
+ * used plain Tailwind utility classes (e.g. "hidden lg:block",
+ * "sm:grid-cols-2 xl:grid-cols-3"). Util pages load their own separate
+ * Tailwind stylesheet (tool.css, see tailwind.tools.config.ts) which
+ * independently generates the SAME utility class names whenever any tool
+ * component happens to use them too. Because both stylesheets define
+ * identical class selectors, whichever one loads into <head> later wins any
+ * cascade tie for elements still using those classes — breaking the home
+ * sidebar/grid once any util page has been visited. Hand-written, uniquely
+ * named classes here can never collide with anything tool.css generates,
+ * regardless of load order.
+ */
+/*
+ * Desktop/extension cards use the exact same markup/size as the web card
+ * (see UtilCard in Index.tsx), and this grid matches web's 4-column layout
+ * at the same column count. The breakpoints are shifted ~256px earlier
+ * than web's (768/1024/1280) because DesktopLayout's sidebar eats that much
+ * width, so the *content area* reaches each tier at a smaller window width
+ * than on web — at the default 1200px window this reaches 4 columns, same
+ * as web.
+ */
+.shell-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 512px) {
+  .shell-grid-desktop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .shell-grid-desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .shell-grid-desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.shell-grid-web {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .shell-grid-web {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .shell-grid-web {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .shell-grid-web {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Footer responsive show/hide (used by both Layout.tsx and DesktopLayout.tsx
+ * — kept identical so the footer looks the same everywhere). Previously
+ * used Tailwind's "hidden md:flex" / "hidden md:inline" utilities. Those
+ * rely on the plain ".hidden{display:none}" utility being correctly beaten
+ * by the responsive override at the current breakpoint — but tool.css (see
+ * the "Home shell layout" comment above) generates its own unconditional
+ * copy of ".hidden", and once it loads (visiting any util) it can out-order
+ * the responsive rule and force these permanently hidden, regardless of
+ * width. The footer persists across routes (it's part of the shell, not
+ * Index), so this is a real bug, not a corner case. Hand-written classes
+ * with unique names can't collide with anything tool.css generates.
+ */
+.shell-footer-compact {
+  display: block;
+}
+@media (min-width: 768px) {
+  .shell-footer-compact {
+    display: none;
+  }
+}
+
+.shell-footer-detail {
+  display: none;
+}
+@media (min-width: 768px) {
+  .shell-footer-detail {
+    display: flex;
+  }
+}
+
+.shell-footer-link-label {
+  display: none;
+}
+@media (min-width: 768px) {
+  .shell-footer-link-label {
+    display: inline;
+  }
+}

@@ -4,12 +4,12 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import "../tool.css";
 import { utils } from "@/lib/utils";
-import { isTauri } from "@/lib/platform";
+import { isTauri, isExtension } from "@/lib/platform";
 
 export function UtilPage() {
   const { utilId } = useParams<{ utilId: string }>();
   const navigate = useNavigate();
-  
+
   const util = utils.find((u) => u.id === utilId);
 
   // Handle ESC key to go back to grid
@@ -53,7 +53,7 @@ export function UtilPage() {
     }
   }, [util]);
 
-  const isDesktop = isTauri();
+  const isDesktop = isTauri() || isExtension();
 
   return (
     <div className={isDesktop ? "flex flex-col flex-1 min-h-0" : "space-y-6"}>
