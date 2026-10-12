@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Sparkles, Info, Search, Keyboard, Shield, CheckCircle, Twitter, EyeOff, Code, Monitor, Bug, Lightbulb } from "lucide-react";
+import { Sparkles, Info, Search, Keyboard, Shield, CheckCircle, Twitter, EyeOff, Code, Monitor, Bug, Lightbulb, Coffee } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -252,6 +252,16 @@ export function Layout() {
               >
                 <Bug className="h-4 w-4 text-red-500" />
                 <span className="shell-footer-link-label font-medium">Report Bug</span>
+              </a>
+              <a
+                href="https://www.buymeacoffee.com/gammabowl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                title="Support OpenDevUtils"
+              >
+                <Coffee className="h-4 w-4 text-amber-600" />
+                <span className="font-medium hidden md:inline">Buy me a coffee</span>
               </a>
             </div>
           </div>

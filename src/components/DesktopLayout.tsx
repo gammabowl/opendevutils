@@ -5,7 +5,7 @@ import { utils, utilCategories } from "@/lib/utils";
 import { getPlatformSync, getModifierKey, isTauri, isExtension } from "@/lib/platform";
 import { CommandPalette, useCommandPalette } from "@/components/CommandPalette";
 import { KeyboardShortcutsHelp, useGlobalKeyboardShortcuts } from "@/components/KeyboardShortcuts";
-import { Search, ChevronLeft, ChevronRight, Home, Bug, Lightbulb, Keyboard, Monitor, EyeOff, Code } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Home, Bug, Lightbulb, Keyboard, Monitor, EyeOff, Code, Coffee } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -427,6 +427,16 @@ export function DesktopLayout() {
               >
                 <Bug className="h-4 w-4 text-red-500" />
                 <span className="shell-footer-link-label font-medium">Report Bug</span>
+              </a>
+              <a
+                href="https://www.buymeacoffee.com/gammabowl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                title="Support OpenDevUtils"
+              >
+                <Coffee className="h-4 w-4 text-amber-600" />
+                <span className="font-medium hidden md:inline">Buy me a coffee</span>
               </a>
             </div>
           </div>
